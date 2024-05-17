@@ -59,15 +59,6 @@ export function SignUp() {
   const onSubmit = async (event) => {
     event.preventDefault();
     setApiProgress(true);
-    // signUp({
-    //   username: userName,
-    //   email,
-    //   password,
-    // })
-    //   .then((res) => {
-    //     setSuccessMessage(res.data.message);
-    //   })
-    //   .finally(() => setApiProgress(false));
     try {
       const response = await signUp({
         username: userName,
@@ -76,8 +67,13 @@ export function SignUp() {
       });
       setSuccessMessage(response.data.message);
     } catch (err) {
-      if (err.response && err.response.data?.validationErrors) {
-        setErrors(err.response.data?.validationErrors);
+      console.log(err);
+      if (err.response) {
+        if (err.response.data.status === 400) {
+          setErrors(err.response.data.validationErrors);
+        } else {
+          setGeneralError(err.response.data.message);
+        }
       } else {
         setGeneralError(t("genericError"));
       }

@@ -4,7 +4,6 @@ import tr from "./translations/tr.json"
 import en from "./translations/en.json"
 
 const initialLanguage = localStorage.getItem('lang') || navigator.language || 'en';
-console.log(initialLanguage)
 export const i18nInstance = i18n.use(initReactI18next) // passes i18n down to react-i18next
 
 i18nInstance.init({
