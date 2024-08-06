@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { signUp } from "./api";
 import { Input } from "./components/Input";
 import { useTranslation } from "react-i18next";
-import { LanguageSelector } from "../../shared/components/languageSelector";
+import { Alert } from "@/shared/components/Alert";
+import Spinner from "@/shared/components/Spinner";
 
 export function SignUp() {
   const [userName, setUserName] = useState();
@@ -13,12 +14,10 @@ export function SignUp() {
   const [successMessage, setSuccessMessage] = useState();
   const [errors, setErrors] = useState({});
   const [generalError, setGeneralError] = useState();
-  // const { t } = useTranslation();
   const { t } = useTranslation();
 
   const passwordRepeatError = useMemo(() => {
     if (repassword && password !== repassword) {
-      console.log("changes in passwords fields");
       return t("passwordMismatch");
     }
     return "";
@@ -51,10 +50,10 @@ export function SignUp() {
     });
   }, [password]);
 
-  useEffect(() => {
-    setGeneralError("");
-    setSuccessMessage("");
-  }, [userName, email, password, repassword]);
+  // useEffect(() => {
+  //   setGeneralError("");
+  //   setSuccessMessage("");
+  // }, [userName, email, password, repassword]);
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -67,7 +66,6 @@ export function SignUp() {
       });
       setSuccessMessage(response.data.message);
     } catch (err) {
-      console.log(err);
       if (err.response) {
         if (err.response.data.status === 400) {
           setErrors(err.response.data.validationErrors);
@@ -88,7 +86,6 @@ export function SignUp() {
         <form className="card" onSubmit={onSubmit}>
           <div className="text-center card-header">
             <h1>{t("signUp")}</h1>
-            <LanguageSelector />
           </div>
           <div className="card-body">
             <Input
@@ -117,27 +114,14 @@ export function SignUp() {
               error={passwordRepeatError}
               onChange={(event) => setRepassword(event.target.value)}
             />
-            {successMessage && (
-              <div className="alert alert-success" role="alert">
-                {successMessage}
-              </div>
-            )}
-            {generalError && (
-              <div className="alert alert-danger" role="alert">
-                {generalError}
-              </div>
-            )}
+            {successMessage && <Alert>{successMessage}</Alert>}
+            {generalError && <Alert styleType="danger">{generalError}</Alert>}
             <div className="text-center">
               <button
                 className="btn btn-primary "
                 disabled={apiProgress || !password || password !== repassword}
               >
-                {apiProgress && (
-                  <span
-                    className="spinner-border spinner-border-sm mr-2"
-                    aria-hidden="true"
-                  ></span>
-                )}
+                {apiProgress && <Spinner sm={true}></Spinner>}
                 {t("signUp")}
               </button>
             </div>

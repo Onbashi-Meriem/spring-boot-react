@@ -1,11 +1,9 @@
-import axios from "axios";
-import { i18nInstance } from "../../locales/index"
+
+import http from "@/lib/http";
+
 
 export function signUp(requestBody) {
-    return axios.post("/api/v1/users", requestBody, {
-        headers: {
-            "Accept-Language": i18nInstance.language
-        }
-    })
+    return http.post("/api/v1/users", requestBody
+    )
 
 }
