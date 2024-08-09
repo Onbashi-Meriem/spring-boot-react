@@ -1,3 +1,5 @@
+import { Users } from "./Users";
+
 export function Home() {
-  return <div>Home Page</div>;
+  return <Users />;
 }
