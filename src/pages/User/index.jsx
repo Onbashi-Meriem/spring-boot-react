@@ -26,7 +26,7 @@ export class UserClass extends Component {
   render() {
     return (
       <>
-        <div> user id : {this.props.id}</div>
+        <div>test user id : {this.props.id}</div>
         {this.state.apiProgress && (
           <Alert styleType="secondary" center>
             <Spinner></Spinner>

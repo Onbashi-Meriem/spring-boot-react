@@ -2,7 +2,7 @@
 import { SignUp } from "@/pages/SignUp/index.jsx";
 import { Home } from "@/pages/Home.jsx";
 import { Activation } from "@/pages/Activation/index.jsx";
-import { User } from "@/pages/User/index.jsx";
+import { User } from "@/pages/Users/component/User";
 import App from "@/App.jsx";
 import { createBrowserRouter } from "react-router-dom";
 

@@ -1,29 +1,16 @@
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { Alert } from "@/shared/components/Alert";
 import Spinner from "@/shared/components/Spinner";
-import { getUser } from "./api.js";
+import { getUser } from "../api.js";
+import { useRouteParamApiRequest } from "@/shared/hooks/useRouteParamApiRequest.js";
+import { ProfileCard } from "./ProfileCard.jsx";
 
 export function User() {
-  let { id } = useParams();
-  const [apiProgress, setApiProgress] = useState(false);
-  const [user, setUser] = useState({});
-  const [errorMessage, setErrorMessage] = useState();
+  const {
+    apiProgress,
+    data: user,
+    error,
+  } = useRouteParamApiRequest("id", getUser);
 
-  useEffect(() => {
-    const getUserById = async () => {
-      setApiProgress(true);
-      try {
-        const response = await getUser(id);
-        setUser(response.data);
-      } catch (error) {
-        setErrorMessage(error.response.data.message);
-      } finally {
-        setApiProgress(false);
-      }
-    };
-    getUserById();
-  }, []);
   return (
     <>
       {apiProgress && (
@@ -31,8 +18,8 @@ export function User() {
           <Spinner></Spinner>
         </Alert>
       )}
-      {user && <Alert>{user.username}</Alert>}
-      {errorMessage && <Alert styleType="danger">{errorMessage}</Alert>}
+      {user && <ProfileCard user={user}>user</ProfileCard>}
+      {error && <Alert styleType="danger">{error}</Alert>}
     </>
   );
 }
