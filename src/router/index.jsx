@@ -5,6 +5,7 @@ import { Activation } from "@/pages/Activation/index.jsx";
 import { User } from "@/pages/Users/component/User";
 import App from "@/App.jsx";
 import { createBrowserRouter } from "react-router-dom";
+import { Login } from "@/pages/LoginPage";
 
 export default createBrowserRouter([
   {
@@ -19,6 +20,10 @@ export default createBrowserRouter([
       {
         path: "/signup",
         Component: SignUp,
+      },
+      {
+        path: "/login",
+        Component: Login,
       },
       {
         path: "/activation/:token",

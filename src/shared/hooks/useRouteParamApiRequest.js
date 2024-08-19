@@ -3,11 +3,10 @@ import { useEffect, useState } from "react";
 
 
 export function useRouteParamApiRequest(param, apiFunction) {
-    console.log(param)
+
     const params = useParams();
-    console.log(params)
     const pathParams = params[param]
-    console.log(pathParams)
+
     const [apiProgress, setApiProgress] = useState(false);
     const [data, setData] = useState({});
     const [error, setError] = useState();
