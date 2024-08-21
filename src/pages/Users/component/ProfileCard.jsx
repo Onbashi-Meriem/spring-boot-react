@@ -1,11 +1,10 @@
 /* eslint-disable react/prop-types */
 import defaultProfileImage from "@/assets/profile.png";
-import { AuthContext } from "@/shared/state/context";
-import { useContext } from "react";
+import { useAuthState } from "@/shared/state/context";
 import { Button } from "@/shared/components/Button";
 
 export function ProfileCard({ user }) {
-  const authState = useContext(AuthContext);
+  const authState = useAuthState();
   return (
     <div className="card">
       <div className="card-header text-center">

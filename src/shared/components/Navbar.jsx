@@ -1,15 +1,15 @@
 import { Link } from "react-router-dom";
 import logo from "@/assets/hoaxify.png";
 import { useTranslation } from "react-i18next";
-import { useContext } from "react";
-import { AuthContext } from "../state/context";
+import { useAuthState, useAuthDispatch } from "../state/context";
 
 export function Navbar() {
-  const authState = useContext(AuthContext);
+  const authState = useAuthState();
+  const dispatch = useAuthDispatch();
   const { t } = useTranslation();
 
   const onClickLogout = () => {
-    authState.onLogoutSuccess();
+    dispatch({ type: "logout-success" });
   };
   return (
     <nav className="navbar navbar-expand navbar-light bg-light shadow-sm mb-3">

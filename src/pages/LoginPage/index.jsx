@@ -2,9 +2,9 @@ import { Input } from "@/shared/components/Input";
 import { Button } from "@/shared/components/Button";
 import { Alert } from "@/shared/components/Alert";
 import { useTranslation } from "react-i18next";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { login } from "./api";
-import { AuthContext } from "@/shared/state/context";
+import { useAuthDispatch } from "@/shared/state/context";
 import { useNavigate } from "react-router-dom";
 
 export function Login() {
@@ -16,7 +16,7 @@ export function Login() {
   const [errors, setErrors] = useState({});
   const [generalError, setGeneralError] = useState();
 
-  const authState = useContext(AuthContext);
+  const dispatch = useAuthDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export function Login() {
         password,
       });
       console.log(response.data.user);
-      authState.onLoginSuccess(response.data.user);
+      dispatch({ type: "login-success", data: response.data.user });
       navigate("/");
     } catch (err) {
       console.log(err);
