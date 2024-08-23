@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import logo from "@/assets/hoaxify.png";
 import { useTranslation } from "react-i18next";
 import { useAuthState, useAuthDispatch } from "../state/context";
+import { ProfileImage } from "@/shared/components/ProfileImage";
 
 export function Navbar() {
   const authState = useAuthState();
@@ -37,7 +38,8 @@ export function Navbar() {
             <>
               <li className="nav-item">
                 <Link className="navbar-brand" to={`/users/${authState.id}`}>
-                  My Profile
+                  <ProfileImage width={30} />
+                  <span className="ms-1 fs-6">{authState.username}</span>
                 </Link>
               </li>
               <li className="nav-item">

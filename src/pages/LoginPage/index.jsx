@@ -41,7 +41,7 @@ export function Login() {
         password,
       });
       console.log(response.data.user);
-      dispatch({ type: "login-success", data: response.data.user });
+      dispatch({ type: "login-success", data: response.data });
       navigate("/");
     } catch (err) {
       console.log(err);
