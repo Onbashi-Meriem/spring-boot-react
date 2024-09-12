@@ -11,7 +11,7 @@ export function UserListItem({ user }) {
         to={`/users/${user.id}`}
         style={{ textDecoration: "none" }}
       >
-        <ProfileImage width={30} />
+        <ProfileImage width={30} image={user.image} />
         <span className="ms-2">{user.username}</span>
       </Link>
     </>

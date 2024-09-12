@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { useAuthState, useAuthDispatch } from "@/shared/state/context";
 
-export function UserEditForm({ setEditMode }) {
+export function UserEditForm({ setEditMode, setTempImage }) {
   const authState = useAuthState();
   const [newUserName, setNewUserName] = useState(authState.username);
   const onChangeUserName = (event) => {
@@ -20,11 +20,32 @@ export function UserEditForm({ setEditMode }) {
   const onClickCancel = () => {
     setNewUserName(authState.username);
     setEditMode(false);
+    setNewImage();
+    setTempImage();
   };
 
   const [apiProgress, setApiProgress] = useState(false);
   const [errors, setErrors] = useState({});
   const [generalError, setGeneralError] = useState();
+  const [newImage, setNewImage] = useState();
+
+  const onSelectImage = (event) => {
+    setErrors(function (lastErrors) {
+      return {
+        ...lastErrors,
+        image: undefined,
+      };
+    });
+    if (event.target.files.length < 1) return;
+    const file = event.target.files[0];
+    const fileReader = new FileReader();
+    fileReader.onloadend = () => {
+      const data = fileReader.result;
+      setNewImage(data);
+      setTempImage(data);
+    };
+    fileReader.readAsDataURL(file);
+  };
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -32,10 +53,13 @@ export function UserEditForm({ setEditMode }) {
     setErrors({});
     setGeneralError();
     try {
-      await updateUser(authState.id, { username: newUserName });
+      const { data } = await updateUser(authState.id, {
+        username: newUserName,
+        image: newImage,
+      });
       dispatch({
         type: "user-update-success",
-        data: { username: newUserName },
+        data: { username: data.username, image: data.image },
       });
 
       setEditMode(false);
@@ -62,6 +86,12 @@ export function UserEditForm({ setEditMode }) {
         onChange={onChangeUserName}
         error={errors.username}
       ></Input>
+      <Input
+        label="Profile Image"
+        type="file"
+        onChange={onSelectImage}
+        error={errors.image}
+      />
       {generalError && <Alert styleType="danger">{generalError}</Alert>}
       <Button apiProgress={apiProgress} type="submit">
         Save
